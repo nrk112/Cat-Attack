@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FinalProject.BaseClasses;
 
 namespace FinalProject
 {
@@ -25,5 +22,31 @@ namespace FinalProject
 
         public static readonly string MusicFilePath =  @"Music\Funky Chunk.mp3";
         public static readonly string TeddyBear = @"Images\teddy.png";
+        public static readonly string Splat = @"Images\splat.png";
+        public static readonly string SwordToLeft = @"Images\swordToLeft.png";
+        public static readonly string SwordToRight = @"Images\swordToRight.png";
+
+        public static readonly string SplatSound = @"Sounds\splat.mp3";
+
+        public static readonly Random rand = new Random();
+
+        /// <summary>
+        /// Checks the collision between two game objects.
+        /// </summary>
+        /// <param name="obj1"></param>
+        /// <param name="obj2"></param>
+        /// <returns></returns>
+        static public bool CheckCollision(GameObject obj1, GameObject obj2)
+        {
+            if (Math.Abs(obj1.Y - obj2.Y) < ((obj1.ScaledHeight + obj2.ScaledHeight) / 2.0))
+            {
+                if (Math.Abs(obj1.X - obj2.X) < ((obj1.ScaledWidth + obj2.ScaledWidth) / 2.0))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

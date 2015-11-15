@@ -39,11 +39,7 @@ namespace FinalProject
         #endregion
 
         DispatcherTimer gameTick = new DispatcherTimer();
-
-        //Use 3 lists for easy level of Z-Index.
-        List<IGameObject> backgroundObjects = new List<IGameObject>();
         List<IGameObject> gameObjects = new List<IGameObject>();
-        List<IGameObject> uiObjects = new List<IGameObject>();
         MediaPlayer music = new MediaPlayer();
 
         //Updates per second, not actual framerate.
@@ -103,6 +99,11 @@ namespace FinalProject
         public void SetUpAllGameObjects(bool isFirstTime = false)
         {
             new GameObjects.TestObject();
+            new GameObjects.TestObject();
+            new GameObjects.TestObject();
+            new GameObjects.TestObject();
+            new GameObjects.SpecialItem();
+            new GameObjects.Sword();
         }
 
         /// <summary>
@@ -112,6 +113,7 @@ namespace FinalProject
         public void IncreaseScore(int amount = 1)
         {
             Score += amount * BonusMultiplier;
+
         }
 
         /// <summary>
@@ -140,17 +142,7 @@ namespace FinalProject
         /// <param name="e"></param>
         void OnGameTick(object sender, EventArgs e)
         {
-            foreach (IGameObject obj in backgroundObjects)
-            {
-                obj.Update();
-            }
-
             foreach (IGameObject obj in gameObjects)
-            {
-                obj.Update();
-            }
-
-            foreach (IGameObject obj in uiObjects)
             {
                 obj.Update();
             }

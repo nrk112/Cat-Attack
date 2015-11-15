@@ -64,7 +64,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BaseClasses\GameObject.cs" />
+    <Compile Include="BaseClasses\GameText.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="GameObjects\HitCountText.cs" />
+    <Compile Include="GameObjects\SpecialItem.cs" />
+    <Compile Include="GameObjects\Splat.cs" />
+    <Compile Include="GameObjects\Sword.cs" />
     <Compile Include="GameObjects\TestObject.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />

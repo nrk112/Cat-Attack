@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace FinalProject.BaseClasses
 {
-    abstract class GameObject : Interfaces.IGameObject
+    public abstract class GameObject : Interfaces.IGameObject
     {
         /// <summary>
         /// Constructor sets initial values.
@@ -20,7 +20,7 @@ namespace FinalProject.BaseClasses
         /// <summary>
         /// The is the base element that makes up what this game object is.
         /// </summary>
-        protected FrameworkElement Element
+        public FrameworkElement Element
         {
             get
             {
@@ -64,6 +64,29 @@ namespace FinalProject.BaseClasses
         protected TranslateTransform translateTransform { get; set; }
         protected TransformGroup transformGroup { get; set; }
 
+        public int Hits { get; set; }
+
+        protected enum ZIndexType
+        {
+            Game,
+            Background,
+            UI
+        }
+
+        public enum State
+        {
+            Active,
+            Inactive,
+            Slow,
+            Hit
+        }
+
+        /// <summary>
+        /// The current state that the object is in.
+        /// Used to determine how it should update.
+        /// </summary>
+        public State currentState { get; set; }
+
         /// <summary>
         /// Updates the object.
         /// Should be called every tick of the game engine.
@@ -73,9 +96,13 @@ namespace FinalProject.BaseClasses
         /// <summary>
         /// Adds this object to the list of game objects
         /// </summary>
-        protected void AddToGame()
+        protected void AddToGame(ZIndexType type)
         {
-            MainWindow.canvas.Children.Add(_element);
+            if (type.Equals(ZIndexType.Background))
+                MainWindow.canvas.Children.Insert(0, _element);
+            else if (type.Equals(ZIndexType.Game))
+                MainWindow.canvas.Children.Add(_element);
+
             GameEngine.Instance.AddToDisplayList(this);
         }
 
@@ -118,7 +145,7 @@ namespace FinalProject.BaseClasses
         /// <summary>
         /// Sets the X coordinate of the object by center point.
         /// </summary>
-        protected double X
+        public double X
         {
             get { return translateTransform.X + Width / 2.0; }
             set { translateTransform.X = value - Width / 2.0; }
@@ -128,7 +155,7 @@ namespace FinalProject.BaseClasses
         /// Sets the Y coordinate of the object by center point.
         /// Y is inverse (Top to Bottom increases)
         /// </summary>
-        protected double Y
+        public double Y
         {
             get { return translateTransform.Y + Height / 2.0; }
             set { translateTransform.Y = value - Height / 2.0; }
@@ -200,7 +227,7 @@ namespace FinalProject.BaseClasses
         /// <summary>
         /// Returns the height based on the set scaling.
         /// </summary>
-        protected double ScaledHeight
+        public double ScaledHeight
         {
             get { return Element.Height * scaleTransform.ScaleY; }
         }
