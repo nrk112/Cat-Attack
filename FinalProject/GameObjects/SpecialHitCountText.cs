@@ -14,18 +14,8 @@ namespace FinalProject.GameObjects
     {
         public SpecialHitCountText()
         {
-            textBlock.FontFamily = new FontFamily("Impact Regular");
-            textBlock.Height = 100.0;
-            textBlock.Width = 300.0;
-            textBlock.TextAlignment = TextAlignment.Center;
-            textBlock.FontSize = 45;
-            textBlock.Text = "0";
-
-            Scale = 1;
-
-            textBlock.Foreground = Brushes.Red;
+            Reset();
             AddToGame(ZIndexType.Game);
-            textBlock.Visibility = Visibility.Hidden;
         }
 
         public void ChangeText(string text)
@@ -35,8 +25,25 @@ namespace FinalProject.GameObjects
             //animate = true;
         }
 
-        private bool animate = false;
-        private int ticks = 0;
+        public void FadeOut()
+        {
+            DoubleAnimation animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
+            textBlock.BeginAnimation(TextBlock.OpacityProperty, animation);
+        }
+
+        public override void Reset()
+        {
+            textBlock.FontFamily = new FontFamily("Impact Regular");
+            textBlock.Height = 100.0;
+            textBlock.Width = 300.0;
+            textBlock.TextAlignment = TextAlignment.Center;
+            textBlock.FontSize = 45;
+            textBlock.Text = "0";
+            textBlock.Foreground = Brushes.YellowGreen;
+            textBlock.Visibility = Visibility.Hidden;
+
+            Scale = 1.5;
+        }
 
         public override void Update()
         {

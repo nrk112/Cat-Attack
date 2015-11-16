@@ -11,8 +11,6 @@ namespace FinalProject.GameObjects
     {
         private static BitmapImage bitMap = null;
         private static List<BaseClasses.GameObject> list = new List<BaseClasses.GameObject>();
-        private int xTranslation;
-        private State currentState;
 
         public Splat()
         {
@@ -40,6 +38,11 @@ namespace FinalProject.GameObjects
         //Physics properties
         private double gravity = 0.7;
         private double friction = 1.0;
+
+        public override void Reset()
+        {
+
+        }
 
         public override void Update()
         {
@@ -75,7 +78,6 @@ namespace FinalProject.GameObjects
             if (Y >= MainWindow.canvas.Height + 2 * ScaledHeight)
             {
                 ResetObject();
-
             }
         }
     }

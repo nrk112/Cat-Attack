@@ -7,23 +7,25 @@ using System.Windows.Media.Imaging;
 
 namespace FinalProject.GameObjects
 {
-    class TestObject : BaseClasses.GameObject
+    class AttackableObject : BaseClasses.GameObject
     {
-        private static BitmapImage bitMap = null;
+        private static BitmapImage bitMap1 = null;
+        private static BitmapImage bitMap2 = null;
+        private static BitmapImage bitMap3 = null;
         protected int xTranslation;
         protected int startPointSectionSize;
 
-        public TestObject()
+        public AttackableObject()
         {
-            UseImage(Global.TeddyBear, bitMap);
-            ResetObject();
+            //TODO: can this be moved to the reset function?  Will the images be properly replaced?
+            UseRandomImage();
+            Reset();
             list.Add(this);
             AddToGame(ZIndexType.Game);
-            startPointSectionSize = (int)MainWindow.canvas.Width / 20;
         }
 
-        private static List<TestObject> list = new List<TestObject>();
-        public static List<TestObject> List
+        private static List<BaseClasses.GameObject> list = new List<BaseClasses.GameObject>();
+        public static List<BaseClasses.GameObject> List
         {
             get
             {
@@ -31,13 +33,32 @@ namespace FinalProject.GameObjects
             }
         }
 
+        private void UseRandomImage()
+        {
+            int rand = Global.rand.Next(1, 100);
+            if (rand < 33)
+            {
+                UseImage(Global.TeddyBear, bitMap1);
+            }
+            else if (rand < 66)
+            {
+                UseImage(Global.Bird, bitMap2);
+            }
+            else
+            {
+                UseImage(Global.Duck, bitMap3);
+            }
+            
+        }
+
         /// <summary>
         /// Sets the objects properties back to the default.
         /// </summary>
-        protected void ResetObject()
+        public override void Reset()
         {
             Scale = 0.15;
-            currentState = State.Active;
+            Hits = 0;
+            startPointSectionSize = (int)MainWindow.canvas.Width / 20;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -62,6 +83,8 @@ namespace FinalProject.GameObjects
             dY = -50.0;
             Angle = 0.0;
             Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight *2);
+
+            currentState = State.Active;
         }
 
         //Physics properties
@@ -90,7 +113,7 @@ namespace FinalProject.GameObjects
             //Reset object when its no longer in play.
             if (Y >= MainWindow.canvas.Height + 3 * ScaledHeight)
             {
-                ResetObject();
+                Reset();
             }
         }
     }

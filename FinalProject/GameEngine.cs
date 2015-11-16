@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FinalProject.GameObjects;
+using System.Windows;
 
 namespace FinalProject
 {
@@ -46,6 +47,18 @@ namespace FinalProject
         HitCountText hitCountText;
         TimerText timerText;
 
+        private State currentState;
+
+        private enum State
+        {
+            Loading,
+            GameOver,
+            Menu,
+            RunningArcade,
+            RunningClassic,
+            Stopped
+        }
+
         //Updates per second, not actual framerate.
         private readonly int PsuedoFPS = 60;
 
@@ -63,8 +76,23 @@ namespace FinalProject
             gameTick.Interval = new TimeSpan(0, 0, 0, 0, GetMSFromFPS());
             gameTick.Tick += OnGameTick;
             gameTick.Start();
+
+            currentState = State.Loading;
+
             InitializeGame();
         }
+
+        public void StartArcadeGame()
+        {
+            BonusMultiplier = 1;
+            HighScore = 0;
+            Score = 0;
+            SetUpAllGameObjects();
+
+            PlayMusic();
+            currentState = State.RunningArcade;
+        }
+
 
         /// <summary>
         /// Convert the frames per second to approximate miliseconds for use in the ticker interval.
@@ -80,11 +108,8 @@ namespace FinalProject
         /// </summary>
         private void InitializeGame()
         {
-            BonusMultiplier = 1;
-            HighScore = 0;
-            Score = 0;
-            SetUpAllGameObjects();
-            PlayMusic();
+            Windows.StartMenu sm = new Windows.StartMenu();
+            sm.ShowDialog();
         }
 
         /// <summary>
@@ -102,11 +127,12 @@ namespace FinalProject
         /// <param name="isFirstTime"></param>
         public void SetUpAllGameObjects(bool isFirstTime = false)
         {
-            new TestObject();
-            new TestObject();
-            new TestObject();
-            new TestObject();
+            new AttackableObject();
+            new AttackableObject();
+            new AttackableObject();
+            new AttackableObject();
             new SpecialItem();
+            new Dog();
             new Sword();
 
             hitCountText = new HitCountText();
@@ -154,6 +180,12 @@ namespace FinalProject
             {
                 obj.Update();
             }
+        }
+
+        public void SetGameOver()
+        {
+            //TODO: Add states for game engine
+
         }
 
         #region Audio

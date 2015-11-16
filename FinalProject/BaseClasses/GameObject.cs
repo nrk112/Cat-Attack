@@ -76,10 +76,12 @@ namespace FinalProject.BaseClasses
 
         public enum State
         {
+            Ready,
             Active,
             Inactive,
             Slow,
-            Hit
+            Hit,
+            Animating
         }
 
         /// <summary>
@@ -93,6 +95,11 @@ namespace FinalProject.BaseClasses
         /// Should be called every tick of the game engine.
         /// </summary>
         public abstract void Update();
+
+        /// <summary>
+        /// Resets the object to its initial state.
+        /// </summary>
+        public abstract void Reset();
 
         /// <summary>
         /// Adds this object to the list of game objects

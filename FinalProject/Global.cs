@@ -28,14 +28,23 @@ namespace FinalProject
         public static readonly string SwordToLeft = @"Images\swordToLeft.png";
         public static readonly string SwordToRight = @"Images\swordToRight.png";
         public static readonly string Catnip = @"Images\catnip.png";
+        public static readonly string Dog = @"Images\dog.png";
+        public static readonly string Bird = @"Images\bird.png";
+        public static readonly string Duck = @"Images\duck.png";
 
         //Sounds
         public static readonly string MusicFilePath = @"Music\Funky Chunk.mp3";
         public static readonly string SplatSound = @"Sounds\splat.mp3";
+        public static readonly string DogGrowlSound = @"Sounds\DogGrowl.wav";
+        public static readonly string DogBarkSound = @"Sounds\DogBark.wav";
         #endregion
 
         public static readonly Random rand = new Random();
-        public static readonly double MinVelocityToHit = 150;
+
+        //Game Settings
+        public static readonly double MinVelocityToHit = 125;
+        public static readonly int MultiHitTimeout = 3;
+
         /// <summary>
         /// Checks the collision between two game objects.
         /// </summary>

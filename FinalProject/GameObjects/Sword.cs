@@ -13,35 +13,25 @@ namespace FinalProject.GameObjects
         private static BitmapImage bitmap = null;
         private Point mousePosition = new Point();
         private double startingScale = 0.5;
-        private MediaPlayer splatSound = new MediaPlayer();
-        private MediaPlayer levelDownSound = new MediaPlayer();
-
-        public int Misses { get; set; }
-        public int Level { get; set; }
+        private static MediaPlayer splatSound = new MediaPlayer();
+        private static MediaPlayer levelDownSound = new MediaPlayer();
 
         public Sword()
         {
-            Hits = 0;
-            Misses = 0;
-            Level = 1;
-
             UseImage(Global.SwordToLeft, bitmap);
+            Reset();
 
             string fileName = Global.ResourcePath + Global.SplatSound;
             Uri uriFile = new Uri(fileName);
             splatSound.Open(uriFile);
 
-            //fileName = Global.LevelDownSound;
-            //uriFile = new Uri(fileName, UriKind.Relative);
-            //levelDownSound.Open(uriFile);
-
-            mousePosition = Mouse.GetPosition(MainWindow.canvas);
-            X = mousePosition.X;
-            Y = mousePosition.Y;
-            Scale = startingScale;
-            AddToGame(ZIndexType.Game);
+            AddToGame(ZIndexType.UI);
         }
 
+        /// <summary>
+        /// Calculates the velocity of the mouse movement.
+        /// </summary>
+        /// <returns></returns>
         private double CalculateVelocity()
         {
             double velocity = Math.Sqrt((Math.Pow(dX, 2) + Math.Pow(dY, 2)));
@@ -63,6 +53,17 @@ namespace FinalProject.GameObjects
         private double lastAngle = 0.0;
         private double dAngle = 0.0;
         private double currentAngle = 0.0;
+
+        public override void Reset()
+        {
+            Hits = 0;
+
+            mousePosition = Mouse.GetPosition(MainWindow.canvas);
+            X = mousePosition.X;
+            Y = mousePosition.Y;
+            Scale = startingScale;
+            currentState = State.Active;
+        }
 
         public override void Update()
         {
@@ -87,31 +88,62 @@ namespace FinalProject.GameObjects
             //Make sure mouse is fast enough to make a hit.
             if (CalculateVelocity() > Global.MinVelocityToHit)
             {
-                foreach (GameObject obj in TestObject.List)
+                //Check normal objects
+                foreach (GameObject obj in AttackableObject.List)
                 {
                     if (Global.CheckCollision(this, obj))
                     {
                         if (obj.currentState == State.Active)
                         {
-                            splatSound.Stop();
-                            splatSound.Play();
-                            Hits++;
-                            obj.Hits++;
-                            obj.currentState = State.Hit;
-                            GameEngine.Instance.IncreaseScore();
+                            OnActiveHit(obj);
                         }
-                        //For Special Objects
+                    }
+                }
+
+                //Check Special Objects
+                foreach (GameObject obj in SpecialItem.List)
+                {
+                    if (Global.CheckCollision(this, obj))
+                    {
+                        if (obj.currentState == State.Active)
+                        {
+                            OnActiveHit(obj);
+                        }
                         else if (obj.currentState == State.Slow && HitID != obj.HitID)
                         {
                             splatSound.Stop();
                             splatSound.Play();
-                            Hits++;
                             obj.Hits++;
-                            GameEngine.Instance.IncreaseScore();
+                            GameEngine.Instance.IncreaseScore(CalcBonus(obj));
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Instructions to run when a game object in the active state is hit. 
+        /// </summary>
+        /// <param name="obj">The game object to modify</param>
+        private void OnActiveHit(GameObject obj)
+        {
+            splatSound.Stop();
+            splatSound.Play();
+            obj.Hits++;
+            obj.currentState = State.Hit;
+            GameEngine.Instance.IncreaseScore(CalcBonus(obj));
+        }
+
+        /// <summary>
+        /// Calculates how much the score will increase by per hit.
+        /// </summary>
+        /// <param name="obj">The game object to calculate from</param>
+        /// <returns></returns>
+        private int CalcBonus(GameObject obj)
+        {
+            if (obj.Hits < 10) return 1;
+            else if (obj.Hits < 20) return 2;
+            else return 3;
         }
     }
 }

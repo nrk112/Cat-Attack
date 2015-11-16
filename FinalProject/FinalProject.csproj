@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\StartMenu.xaml.cs">
+      <DependentUpon>StartMenu.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,20 +69,25 @@
     <Compile Include="BaseClasses\GameObject.cs" />
     <Compile Include="BaseClasses\GameText.cs" />
     <Compile Include="GameEngine.cs" />
-    <Compile Include="GameObjects\Bomb.cs" />
+    <Compile Include="GameObjects\AttackText.cs" />
+    <Compile Include="GameObjects\Dog.cs" />
     <Compile Include="GameObjects\HitCountText.cs" />
     <Compile Include="GameObjects\SpecialHitCountText.cs" />
     <Compile Include="GameObjects\TimerText.cs" />
     <Compile Include="GameObjects\SpecialItem.cs" />
     <Compile Include="GameObjects\Splat.cs" />
     <Compile Include="GameObjects\Sword.cs" />
-    <Compile Include="GameObjects\TestObject.cs" />
+    <Compile Include="GameObjects\AttackableObject.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\StartMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -1,0 +1,38 @@
+﻿<Window x:Class="FinalProject.Windows.StartMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinalProject.Windows"
+        mc:Ignorable="d"
+        Title="StartMenu" Height="600" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Foreground="{x:Null}">
+    <Window.Resources>
+        <Style x:Key="baseStyle" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontFamily" Value="Chiller" />
+            <Setter Property="FontSize" Value="60" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style BasedOn="{StaticResource baseStyle}" TargetType="{x:Type Label}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="1" Color="Red"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid x:Name="mainGrid">
+        <Label x:Name="PlayArcadeLabel" Content="Arcade Mode" Margin="10,133,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
+        <Label x:Name="QuitOptionLabel" Content="Quit" Margin="10,223,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
+        <Label x:Name="TitleLabel" Content="Start Menu" Margin="10,10,0,0" Width="780" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{StaticResource baseStyle}"/>
+        <Label x:Name="ScoreLabel" Content="" Margin="10,375,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="80" Style="{StaticResource baseStyle}" Height="116"/>
+        <Label x:Name="ScoreAmtLabel" Content="" Margin="10,496,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource baseStyle}"/>
+        <Separator x:Name="separator" Height="100" Margin="0,307,5,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

@@ -22,8 +22,14 @@ namespace FinalProject.GameObjects
             AddToGame(ZIndexType.UI);
         }
 
+        public override void Reset()
+        {
+
+        }
+
         public override void Update()
         {
+
         }
     }
 }
