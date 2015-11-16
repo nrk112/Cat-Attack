@@ -6,10 +6,10 @@ namespace FinalProject
     static class Global
     {
 
+        #region Paths
         /// <summary>
         /// Returns the resource folder path from the root directory.
         /// </summary>
-        private static string resourcePath;
         public static string ResourcePath
         {
             get
@@ -19,17 +19,21 @@ namespace FinalProject
                 return resourcePath;
             }
         }
+        private static string resourcePath;
 
-        public static readonly string MusicFilePath =  @"Music\Funky Chunk.mp3";
+        //Images
         public static readonly string TeddyBear = @"Images\teddy.png";
         public static readonly string Splat = @"Images\splat.png";
         public static readonly string SwordToLeft = @"Images\swordToLeft.png";
         public static readonly string SwordToRight = @"Images\swordToRight.png";
 
+        //Sounds
+        public static readonly string MusicFilePath = @"Music\Funky Chunk.mp3";
         public static readonly string SplatSound = @"Sounds\splat.mp3";
+        #endregion
 
         public static readonly Random rand = new Random();
-
+        public static readonly double MinVelocityToHit = 150;
         /// <summary>
         /// Checks the collision between two game objects.
         /// </summary>

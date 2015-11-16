@@ -16,9 +16,10 @@ namespace FinalProject.GameObjects
         private MediaPlayer splatSound = new MediaPlayer();
         private MediaPlayer levelDownSound = new MediaPlayer();
 
-        public int Hits { get; set; }
         public int Misses { get; set; }
         public int Level { get; set; }
+
+        private HitCountText velocityText = new HitCountText();
 
         public Sword()
         {
@@ -41,41 +42,83 @@ namespace FinalProject.GameObjects
             Y = mousePosition.Y;
             Scale = startingScale;
             AddToGame(ZIndexType.Game);
+            velocityText.textBlock.Visibility = Visibility.Visible;
         }
 
-        double friction = 0.1;
+        private double CalculateVelocity()
+        {
+            double velocity = Math.Sqrt((Math.Pow(dX, 2) + Math.Pow(dY, 2)));
+            return velocity;
+        }
+
+        /// <summary>
+        /// Calculates the angle in degrees of the movement of the mouse.
+        /// </summary>
+        /// <returns></returns>
+        private double CalculateAngle()
+        {
+            double angleRadians = Math.Atan2(dY, dX);
+            double angleDegrees = (angleRadians * 180) / Math.PI;
+            return angleDegrees;
+        }
+
+        private double friction = 1.0;
+        private double lastAngle = 0.0;
+        private double dAngle = 0.0;
+        private double currentAngle = 0.0;
+        private bool sameStrike = false;
+
         public override void Update()
         {
             mousePosition = Mouse.GetPosition(MainWindow.canvas);
-            dX = (X - mousePosition.X) * friction;
-            dY = (Y - mousePosition.Y) * friction;
+            dX = (mousePosition.X - X) * friction;
+            dY = (mousePosition.Y - Y) * friction;
 
             X = mousePosition.X;
             Y = mousePosition.Y;
 
-            foreach (GameObject obj in TestObject.List)
+            //Calculate the angles to see if this is a new strike pattern.
+            currentAngle = CalculateAngle();
+            dAngle = currentAngle - lastAngle;
+            lastAngle = currentAngle;
+
+            //If its a new strike pattern, give it a new ID.
+            if (dAngle > 20)
             {
-                if (Global.CheckCollision(this, obj))
+                HitID = Global.rand.Next(1, int.MaxValue);
+            }
+
+            //velocityText.textBlock.Text = currentAngle.ToString();
+
+            //Make sure mouse is fast enough to make a hit.
+            if (CalculateVelocity() > Global.MinVelocityToHit)
+            {
+                foreach (GameObject obj in TestObject.List)
                 {
-                    if (obj.currentState == State.Active)
+                    if (Global.CheckCollision(this, obj))
                     {
-                        splatSound.Stop();
-                        splatSound.Play();
-                        Hits++;
-                        obj.Hits++;
-                        obj.currentState = State.Hit;
-                        GameEngine.Instance.IncreaseScore();
-                    }
-                    else if (obj.currentState == State.Slow)
-                    {
-                        splatSound.Stop();
-                        splatSound.Play();
-                        Hits++;
-                        obj.Hits++;
-                        GameEngine.Instance.IncreaseScore();
+                        if (obj.currentState == State.Active)
+                        {
+                            splatSound.Stop();
+                            splatSound.Play();
+                            Hits++;
+                            obj.Hits++;
+                            obj.currentState = State.Hit;
+                            GameEngine.Instance.IncreaseScore();
+                        }
+                        //For Special Objects
+                        else if (obj.currentState == State.Slow && HitID != obj.HitID)
+                        {
+                            splatSound.Stop();
+                            splatSound.Play();
+                            Hits++;
+                            obj.Hits++;
+                            GameEngine.Instance.IncreaseScore();
+                        }
                     }
                 }
             }
+
         }
     }
 }

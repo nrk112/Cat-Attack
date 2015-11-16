@@ -1,7 +1,6 @@
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Debug\FinalProject.exe.config
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Debug\FinalProject.exe
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Debug\FinalProject.pdb
-C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Debug\MainWindow.g.cs
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Debug\App.g.cs
 C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Debug\FinalProject_MarkupCompile.cache

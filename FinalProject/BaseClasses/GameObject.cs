@@ -65,6 +65,7 @@ namespace FinalProject.BaseClasses
         protected TransformGroup transformGroup { get; set; }
 
         public int Hits { get; set; }
+        public int HitID { get; set; }
 
         protected enum ZIndexType
         {
