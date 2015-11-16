@@ -19,8 +19,6 @@ namespace FinalProject.GameObjects
         public int Misses { get; set; }
         public int Level { get; set; }
 
-        private HitCountText velocityText = new HitCountText();
-
         public Sword()
         {
             Hits = 0;
@@ -42,7 +40,6 @@ namespace FinalProject.GameObjects
             Y = mousePosition.Y;
             Scale = startingScale;
             AddToGame(ZIndexType.Game);
-            velocityText.textBlock.Visibility = Visibility.Visible;
         }
 
         private double CalculateVelocity()
@@ -66,7 +63,6 @@ namespace FinalProject.GameObjects
         private double lastAngle = 0.0;
         private double dAngle = 0.0;
         private double currentAngle = 0.0;
-        private bool sameStrike = false;
 
         public override void Update()
         {
@@ -87,8 +83,6 @@ namespace FinalProject.GameObjects
             {
                 HitID = Global.rand.Next(1, int.MaxValue);
             }
-
-            //velocityText.textBlock.Text = currentAngle.ToString();
 
             //Make sure mouse is fast enough to make a hit.
             if (CalculateVelocity() > Global.MinVelocityToHit)
@@ -118,7 +112,6 @@ namespace FinalProject.GameObjects
                     }
                 }
             }
-
         }
     }
 }

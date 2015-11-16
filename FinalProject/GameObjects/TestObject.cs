@@ -11,7 +11,7 @@ namespace FinalProject.GameObjects
     {
         private static BitmapImage bitMap = null;
         protected int xTranslation;
-        private int startPointSectionSize;
+        protected int startPointSectionSize;
 
         public TestObject()
         {

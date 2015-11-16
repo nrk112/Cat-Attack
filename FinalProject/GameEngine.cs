@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Threading;
+using FinalProject.GameObjects;
 
 namespace FinalProject
 {
@@ -41,6 +42,9 @@ namespace FinalProject
         DispatcherTimer gameTick = new DispatcherTimer();
         List<IGameObject> gameObjects = new List<IGameObject>();
         MediaPlayer music = new MediaPlayer();
+
+        HitCountText hitCountText;
+        TimerText timerText;
 
         //Updates per second, not actual framerate.
         private readonly int PsuedoFPS = 60;
@@ -98,12 +102,16 @@ namespace FinalProject
         /// <param name="isFirstTime"></param>
         public void SetUpAllGameObjects(bool isFirstTime = false)
         {
-            new GameObjects.TestObject();
-            new GameObjects.TestObject();
-            new GameObjects.TestObject();
-            new GameObjects.TestObject();
-            new GameObjects.SpecialItem();
-            new GameObjects.Sword();
+            new TestObject();
+            new TestObject();
+            new TestObject();
+            new TestObject();
+            new SpecialItem();
+            new Sword();
+
+            hitCountText = new HitCountText();
+            timerText = new TimerText();
+            timerText.StartTimer();
         }
 
         /// <summary>
@@ -113,7 +121,7 @@ namespace FinalProject
         public void IncreaseScore(int amount = 1)
         {
             Score += amount * BonusMultiplier;
-
+            hitCountText.textBlock.Text = "Hits: " + Score.ToString();
         }
 
         /// <summary>

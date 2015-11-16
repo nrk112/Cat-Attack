@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace FinalProject.GameObjects
@@ -12,23 +7,23 @@ namespace FinalProject.GameObjects
     {
         public HitCountText()
         {
-            textBlock.FontFamily = new FontFamily("Arial Black");
+            textBlock.FontFamily = new FontFamily("Impact Regular");
             textBlock.Height = 100.0;
             textBlock.Width = 300.0;
-            textBlock.TextAlignment = TextAlignment.Center;
+            X = 175;
+            Y = 50;
+            textBlock.TextAlignment = TextAlignment.Left;
             textBlock.FontSize = 45;
-            textBlock.Text = "0";
+            textBlock.Text = "Hits: 0";
 
-            Scale = 1;
+            Scale = 2 ;
 
-            textBlock.Foreground = Brushes.Red;
-            AddToGame(ZIndexType.Game);
-            textBlock.Visibility = Visibility.Hidden;
+            textBlock.Foreground = Brushes.Black;
+            AddToGame(ZIndexType.UI);
         }
 
         public override void Update()
         {
-            //Location updates with parent gameobject.
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FinalProject.BaseClasses;
+using System.IO;
 
 namespace FinalProject
 {
@@ -26,6 +27,7 @@ namespace FinalProject
         public static readonly string Splat = @"Images\splat.png";
         public static readonly string SwordToLeft = @"Images\swordToLeft.png";
         public static readonly string SwordToRight = @"Images\swordToRight.png";
+        public static readonly string Catnip = @"Images\catnip.png";
 
         //Sounds
         public static readonly string MusicFilePath = @"Music\Funky Chunk.mp3";
@@ -51,6 +53,5 @@ namespace FinalProject
             }
             return false;
         }
-
     }
 }

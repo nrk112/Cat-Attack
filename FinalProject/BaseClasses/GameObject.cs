@@ -103,6 +103,8 @@ namespace FinalProject.BaseClasses
                 MainWindow.canvas.Children.Insert(0, _element);
             else if (type.Equals(ZIndexType.Game))
                 MainWindow.canvas.Children.Add(_element);
+            else
+                MainWindow.canvas.Children.Add(_element);
 
             GameEngine.Instance.AddToDisplayList(this);
         }

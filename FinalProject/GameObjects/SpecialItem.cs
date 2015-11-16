@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace FinalProject.GameObjects
@@ -10,19 +11,27 @@ namespace FinalProject.GameObjects
     class SpecialItem : TestObject
     {
         DispatcherTimer multiHitTimer = new DispatcherTimer();
-        
+        private static BitmapImage bitMap = null;
+
 
         private double Slowdown = 0.1;
-        private HitCountText hitCountText;
+        private SpecialHitCountText hitCountText;
 
-        public SpecialItem() : base()
+        public SpecialItem()
         {
+            UseImage(Global.Catnip, bitMap);
+            ResetObject();
+            AddToGame(ZIndexType.Game);
+            startPointSectionSize = (int)MainWindow.canvas.Width / 20;
+
             int hours = 0;
             int minutes = 0;
             int seconds = 3;
             multiHitTimer.Interval = new TimeSpan(hours, minutes, seconds);
             multiHitTimer.Tick += new EventHandler(MultihitTimeout);
-            hitCountText = new HitCountText();
+            hitCountText = new SpecialHitCountText();
+
+            Scale = 1.0;
         }
 
         private void MultihitTimeout(object sender, EventArgs e)
@@ -38,7 +47,7 @@ namespace FinalProject.GameObjects
             {
                 currentState = State.Slow;
                 hitCountText.textBlock.Visibility = System.Windows.Visibility.Visible;
-                hitCountText.textBlock.Text = Hits.ToString();
+                hitCountText.ChangeText(Hits.ToString());
             }
             else if (currentState == State.Slow)
             {
@@ -56,7 +65,7 @@ namespace FinalProject.GameObjects
                 X += xTranslation * Slowdown;
                 Y += dY * Slowdown;
 
-                hitCountText.textBlock.Text = Hits.ToString();
+                hitCountText.ChangeText(Hits.ToString());
                 hitCountText.X = X + ScaledWidth / 2;
                 hitCountText.Y = Y - ScaledHeight / 2;
             }

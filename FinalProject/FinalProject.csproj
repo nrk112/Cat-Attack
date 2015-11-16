@@ -66,7 +66,10 @@
     <Compile Include="BaseClasses\GameObject.cs" />
     <Compile Include="BaseClasses\GameText.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="GameObjects\Bomb.cs" />
     <Compile Include="GameObjects\HitCountText.cs" />
+    <Compile Include="GameObjects\SpecialHitCountText.cs" />
+    <Compile Include="GameObjects\TimerText.cs" />
     <Compile Include="GameObjects\SpecialItem.cs" />
     <Compile Include="GameObjects\Splat.cs" />
     <Compile Include="GameObjects\Sword.cs" />
