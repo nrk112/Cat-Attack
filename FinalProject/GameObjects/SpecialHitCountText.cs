@@ -42,7 +42,7 @@ namespace FinalProject.GameObjects
             textBlock.Foreground = Brushes.YellowGreen;
             textBlock.Visibility = Visibility.Hidden;
 
-            Scale = 1.5;
+            Scale = 1.5 * Global.ScalingRatio;
         }
 
         public override void Update()

@@ -44,6 +44,18 @@ namespace FinalProject
 
         public static readonly Random rand = new Random();
 
+        public static double ScalingRatio
+        {
+            get
+            {
+                return MainWindow.canvas.Width / 2560; //Screen resolution game developed on X=2560
+            }
+            set
+            {
+
+            }
+        }
+
         //Game Settings
         public static readonly double MinVelocityToHit = 100;
         public static readonly int MultiHitTimeout = 3;

@@ -1,0 +1,17 @@
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Release\FinalProject.exe.config
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Release\FinalProject.exe
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\bin\Release\FinalProject.pdb
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\MainWindow.g.cs
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\Windows\Credits.g.cs
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\Windows\StartMenu.g.cs
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\App.g.cs
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject_MarkupCompile.cache
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject_MarkupCompile.lref
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\MainWindow.baml
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\Windows\Credits.baml
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\Windows\StartMenu.baml
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject.g.resources
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject.Properties.Resources.resources
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject.csproj.GenerateResource.Cache
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject.exe
+C:\Users\nrk11\Documents\GitHub\FinalProject\FinalProject\obj\Release\FinalProject.pdb

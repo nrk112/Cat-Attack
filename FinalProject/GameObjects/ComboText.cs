@@ -19,7 +19,7 @@ namespace FinalProject.GameObjects
             textBlock.FontSize = 45;
             textBlock.Text = "";
 
-            Scale = 1.5;
+            Scale = 2.0 * Global.ScalingRatio;
 
             string fileName = Global.ResourcePath + Global.SlashSound;
             Uri uriFile = new Uri(fileName);

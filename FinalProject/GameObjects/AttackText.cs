@@ -22,7 +22,7 @@ namespace FinalProject.GameObjects
             textBlock.FontSize = 45;
             textBlock.Text = "Attack!!";
 
-            Scale = 1;
+            Scale = 1.5 * Global.ScalingRatio;
 
             textBlock.Foreground = Brushes.Red;
             AddToGame(ZIndexType.Game);

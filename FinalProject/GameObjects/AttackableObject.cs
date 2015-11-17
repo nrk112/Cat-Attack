@@ -56,10 +56,16 @@ namespace FinalProject.GameObjects
         /// </summary>
         public override void Reset()
         {
-            Scale = 0.15;
+            Scale = 0.15 * Global.ScalingRatio;
             Hits = 0;
             startPointSectionSize = (int)MainWindow.canvas.Width / 20;
             bonusMultiplier = 1;
+
+            //Set gravity based on resolution
+            if (MainWindow.canvas.Width > 2000)
+                gravity = 0.85 + Global.rand.NextDouble() * 0.3;
+            else
+                gravity = 0.70 + Global.rand.NextDouble() * 0.2 * Global.ScalingRatio;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -81,7 +87,7 @@ namespace FinalProject.GameObjects
                 xTranslation = Global.rand.Next(5, 15) * -1;
             }
 
-            dY = -50.0;
+            dY = -50.0 * Global.ScalingRatio;
             Angle = 0.0;
             //Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight *2);
             Y = MainWindow.canvas.Height + ScaledHeight;
@@ -104,7 +110,7 @@ namespace FinalProject.GameObjects
         private int randomStartValue = 0;
 
         //Physics properties
-        protected double gravity = 0.75;
+        protected double gravity = 0.85 * Global.ScalingRatio;
         protected double friction = 1.0;
 
         public override void Update()

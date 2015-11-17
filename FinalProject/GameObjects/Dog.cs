@@ -30,7 +30,7 @@ namespace FinalProject.GameObjects
 
             UseImage(Global.Dog, bitMap);
             Reset();
-            //list.Add(this);
+
             AttackableObject.List.Add(this as GameObject);
             AddToGame(ZIndexType.Game);
             startPointSectionSize = (int)MainWindow.canvas.Width / 20;
@@ -41,11 +41,17 @@ namespace FinalProject.GameObjects
         /// </summary>
         public override void Reset()
         {
-            Scale = startingScale;
+            Scale = startingScale * Global.ScalingRatio;
             Hits = 0;
             fadingOut = false;
             Element.Opacity = 1.0;
             bonusMultiplier = -10;
+
+            //Set gravity based on resolution
+            if (MainWindow.canvas.Width > 2000)
+                gravity = 0.85 + Global.rand.NextDouble() * 0.3;
+            else
+                gravity = 0.70 + Global.rand.NextDouble() * 0.2 * Global.ScalingRatio;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -67,7 +73,7 @@ namespace FinalProject.GameObjects
                 xTranslation = Global.rand.Next(5, 15) * -1;
             }
 
-            dY = -50.0;
+            dY = -50.0 * Global.ScalingRatio;
             Angle = 0.0;
             Y = MainWindow.canvas.Height + ScaledHeight;
 
@@ -104,7 +110,7 @@ namespace FinalProject.GameObjects
 
 
         //Physics properties
-        protected double gravity = 0.75;
+        protected double gravity = 0.85 * Global.ScalingRatio;
         protected double friction = 1.0;
 
         public override void Update()
@@ -137,14 +143,14 @@ namespace FinalProject.GameObjects
                     //Do Nothing
                     break;
                 case State.Animating:
-                    Scale += 0.3;
+                    Scale += 0.3 * Global.ScalingRatio;
                     FadeOut();
-                    if (Scale >= 3.0)
+                    if (Scale >= 3.0 * Global.ScalingRatio)
                     {
                         //GameEngine.Instance.SetGameOver();
                         if (Element.Opacity <= 0)
                         {
-                            Scale = startingScale;
+                            Scale = startingScale * Global.ScalingRatio;
                             X = MainWindow.canvas.Width + this.Width;
                         }
 

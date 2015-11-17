@@ -46,7 +46,7 @@ namespace FinalProject
 
             //Use a background image
             ImageBrush ib = new ImageBrush();
-            ib.ImageSource = new BitmapImage(new Uri(@"../../Resources/Images/chip-board.jpg", UriKind.Relative));
+            ib.ImageSource = new BitmapImage(new Uri(@"../../Resources/Images/background2.jpg", UriKind.Relative));
             canvas.Background = ib;
 
             mainGrid.Height = Height - 40;

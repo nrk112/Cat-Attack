@@ -17,7 +17,8 @@ namespace FinalProject.Windows
         {
             InitializeComponent();
 
-            creditsTextBox.Text = "GAME\nNicholas Kehagias 2015\nSome code contributed by\nProfessor Thomas Fernandez FAU 2015 \n\r MUSIC\n\"Fretless\", \"Funcky Chunk\", and \"Ossuary 7 - Resolve\" \nKevin MacLeod (incompetech.com) \nLicensed under Creative Commons: By Attribution 3.0 License \n http://creativecommons.org/licenses/by/3.0/ \n\rIMAGES\nPublic Domain \n\rSounds\nPublic Domain";
+            creditsTextBox.Text = "GAME\nNicholas Kehagias 2015\nSome code contributed by\nProfessor Thomas Fernandez FAU 2015 \n\r MUSIC\n\"Fretless\", \"Funcky Chunk\", and \"Ossuary 7 - Resolve\" \nKevin MacLeod (incompetech.com) \nLicensed under Creative Commons: By Attribution 3.0 License \n http://creativecommons.org/licenses/by/3.0/ \n\rIMAGES\nPublic Domain \n\rSOUNDS\nPublic Domain";
+            creditsTextBox.Text = creditsTextBox.Text.ToUpper();
 
             //Use a background image
             ImageBrush ib = new ImageBrush();

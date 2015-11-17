@@ -63,7 +63,9 @@ namespace FinalProject.GameObjects
             comboText.Element.Visibility = Visibility.Hidden;
 
             mousePosition = Mouse.GetPosition(MainWindow.canvas);
-            Scale = startingScale;
+
+            Scale = startingScale * Global.ScalingRatio;
+
             X = MainWindow.canvas.Width + this.ScaledWidth;
             Y = MainWindow.canvas.Height + this.ScaledHeight;
             currentState = State.Active;

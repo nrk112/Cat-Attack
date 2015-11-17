@@ -69,7 +69,7 @@ namespace FinalProject.GameObjects
             textBlock.FontSize = 45;
             textBlock.Text = "Time: " + Seconds;
 
-            Scale = 2;
+            Scale = 2 * Global.ScalingRatio;
 
             textBlock.Foreground = Brushes.Black;
         }
