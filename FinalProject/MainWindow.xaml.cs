@@ -24,6 +24,7 @@ namespace FinalProject
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 
         public static Canvas canvas { get; set; }
@@ -40,15 +41,15 @@ namespace FinalProject
         void MainWindow_Loaded(object sender, EventArgs e)
         {
             canvas = new Canvas();
-            this.WindowState = WindowState.Maximized;
             canvas.Background = Brushes.Azure;
 
             //Use a background image
             ImageBrush ib = new ImageBrush();
-            ib.ImageSource = new BitmapImage(new Uri(@"../../Resources/Images/chip-board.jpg", UriKind.Relative));
+            ib.ImageSource = new BitmapImage(new Uri(@"../../Resources/Images/background2.jpg", UriKind.Relative));
+            ib.Stretch = Stretch.Fill;
             canvas.Background = ib;
 
-            mainGrid.Height = Height - 40;
+            mainGrid.Height = Height;
             mainGrid.Width = Width;
             canvas.Height = mainGrid.Height;
             canvas.Width = mainGrid.Width;
@@ -57,6 +58,14 @@ namespace FinalProject
 
             //Load game engine after canvas has been setup.
             gameEngine = GameEngine.Instance;
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                GameEngine.Instance.PauseGame();
+            }
         }
     }
 }

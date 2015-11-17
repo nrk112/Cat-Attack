@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Threading;
+using FinalProject.GameObjects;
+using System.Windows;
+using System.Windows.Input;
 
 namespace FinalProject
 {
@@ -39,17 +42,27 @@ namespace FinalProject
         #endregion
 
         DispatcherTimer gameTick = new DispatcherTimer();
-
-        //Use 3 lists for easy level of Z-Index.
-        List<IGameObject> backgroundObjects = new List<IGameObject>();
         List<IGameObject> gameObjects = new List<IGameObject>();
-        List<IGameObject> uiObjects = new List<IGameObject>();
         MediaPlayer music = new MediaPlayer();
+        MusicPlayer musicPlayer = new MusicPlayer();
+
+        HitCountText hitCountText;
+        TimerText timerText;
+
+        private State currentState;
+
+        private enum State
+        {
+            Loading,
+            GameOver,
+            Menu,
+            RunningArcade,
+            RunningClassic,
+            Stopped
+        }
 
         //Updates per second, not actual framerate.
         private readonly int PsuedoFPS = 60;
-
-        public int BonusMultiplier { get; private set; }
 
         public int HighScore { get; private set; }
 
@@ -63,8 +76,23 @@ namespace FinalProject
             gameTick.Interval = new TimeSpan(0, 0, 0, 0, GetMSFromFPS());
             gameTick.Tick += OnGameTick;
             gameTick.Start();
+
+            currentState = State.Loading;
+
             InitializeGame();
         }
+
+        public void StartArcadeGame()
+        {
+            HighScore = 0;
+            Score = 0;
+            SetUpAllGameObjects();
+
+            //PlayMusic();
+            musicPlayer.PlayMP3(Global.MusicFilePath);
+            currentState = State.RunningArcade;
+        }
+
 
         /// <summary>
         /// Convert the frames per second to approximate miliseconds for use in the ticker interval.
@@ -80,11 +108,9 @@ namespace FinalProject
         /// </summary>
         private void InitializeGame()
         {
-            BonusMultiplier = 1;
-            HighScore = 0;
-            Score = 0;
-            SetUpAllGameObjects();
-            PlayMusic();
+            musicPlayer.PlayMP3(Global.MenuMusic);
+            Windows.StartMenu sm = new Windows.StartMenu();
+            sm.ShowDialog();
         }
 
         /// <summary>
@@ -102,7 +128,36 @@ namespace FinalProject
         /// <param name="isFirstTime"></param>
         public void SetUpAllGameObjects(bool isFirstTime = false)
         {
-            new GameObjects.TestObject();
+            gameObjects.Clear();
+            MainWindow.canvas.Children.Clear();
+            AttackableObject.List.Clear();
+            SpecialItem.List.Clear();
+
+            //Create Regular objects
+            for (int i = 0; i < 5; i++)
+            {
+                new AttackableObject();
+            }
+
+            //Create Special Objects
+            for (int i = 0; i < 1; i++)
+            {
+                new SpecialItem();
+            }
+
+            //Create Enemies
+            for (int i = 0; i < 2; i++)
+            {
+                new Dog();
+            }
+
+            //Create Player
+            new Sword();
+
+            //Create UI
+            hitCountText = new HitCountText();
+            timerText = new TimerText();
+            timerText.StartTimer();
         }
 
         /// <summary>
@@ -111,26 +166,8 @@ namespace FinalProject
         /// <param name="amount"></param>
         public void IncreaseScore(int amount = 1)
         {
-            Score += amount * BonusMultiplier;
-        }
-
-        /// <summary>
-        /// Increases the bonus multiplier by algorithm
-        /// </summary>
-        public void IncreaseBonus()
-        {
-            if (BonusMultiplier == 1)
-                BonusMultiplier++;
-            else if (BonusMultiplier <= 512)
-                BonusMultiplier = BonusMultiplier * 2;
-        }
-
-        /// <summary>
-        /// Resets the bonus multiplier
-        /// </summary>
-        public void ClearBonus()
-        {
-            BonusMultiplier = 1;
+            Score += amount;
+            hitCountText.textBlock.Text = "Hits: " + Score;
         }
 
         /// <summary>
@@ -140,20 +177,54 @@ namespace FinalProject
         /// <param name="e"></param>
         void OnGameTick(object sender, EventArgs e)
         {
-            foreach (IGameObject obj in backgroundObjects)
+            switch (currentState)
             {
-                obj.Update();
+                case State.Loading:
+                    break;
+                case State.GameOver:
+                    break;
+                case State.Menu:
+                    break;
+                case State.RunningArcade:
+                    //Invalid operation exception here when gameover called in this loop.
+                    foreach (IGameObject obj in gameObjects)
+                    {
+                        obj.Update();
+                    }
+                    break;
+                case State.RunningClassic:
+                    break;
+                case State.Stopped:
+                    break;
+                default:
+                    break;
             }
+        }
+
+        public void SetGameOver(string title)
+        {
+            currentState = State.GameOver;
 
             foreach (IGameObject obj in gameObjects)
             {
-                obj.Update();
+                obj.Reset();
             }
+            musicPlayer.PlayMP3(Global.GameOverMusic);
+            Windows.StartMenu sm = new Windows.StartMenu(title, Score);
+            sm.ShowDialog();
+        }
 
-            foreach (IGameObject obj in uiObjects)
-            {
-                obj.Update();
-            }
+        public void ResumeGame()
+        {
+            //TODO: If adding different game modes, need to save previouse state when escape is pressed then load the proper resume here.
+            currentState = State.RunningArcade;
+        }
+
+        public void PauseGame()
+        {
+            currentState = State.Stopped;
+            Windows.StartMenu sm = new Windows.StartMenu("Paused", -2);
+            sm.ShowDialog();
         }
 
         #region Audio

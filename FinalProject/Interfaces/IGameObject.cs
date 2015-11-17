@@ -9,5 +9,6 @@ namespace FinalProject.Interfaces
     public interface IGameObject
     {
         void Update();
+        void Reset();
     }
 }
