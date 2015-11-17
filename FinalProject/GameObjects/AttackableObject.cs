@@ -38,7 +38,7 @@ namespace FinalProject.GameObjects
             int rand = Global.rand.Next(1, 100);
             if (rand < 33)
             {
-                UseImage(Global.TeddyBear, bitMap1);
+                UseImage(Global.Mouse, bitMap1);
             }
             else if (rand < 66)
             {
@@ -59,6 +59,7 @@ namespace FinalProject.GameObjects
             Scale = 0.15;
             Hits = 0;
             startPointSectionSize = (int)MainWindow.canvas.Width / 20;
+            bonusMultiplier = 1;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -82,10 +83,25 @@ namespace FinalProject.GameObjects
 
             dY = -50.0;
             Angle = 0.0;
-            Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight *2);
+            //Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight *2);
+            Y = MainWindow.canvas.Height + ScaledHeight;
 
-            currentState = State.Active;
+            currentState = State.Ready;
         }
+
+        /// <summary>
+        /// Sets up a random time before starting movement of object, then sets its state to active.
+        /// Default wait is immediate.
+        /// </summary>
+        /// <param name="maxWaitTime">The maximum wait time in milliseconds allowed before starting. Leave empty for immediate.</param>
+        public void Activate(int maxWaitTime = 1)
+        {
+            tickCount = 0;
+            randomStartValue = Global.rand.Next(1, maxWaitTime);
+            currentState = State.Sleeping;
+        }
+        private int tickCount = 0;
+        private int randomStartValue = 0;
 
         //Physics properties
         protected double gravity = 0.75;
@@ -93,21 +109,42 @@ namespace FinalProject.GameObjects
 
         public override void Update()
         {
-            if (currentState == State.Hit)
+            switch (currentState)
             {
-                //X = MainWindow.canvas.Width + this.Width;
-                currentState = State.Inactive;
-            }
-            else if (currentState == State.Active)
-            {
-                dY += gravity;
-                dX += 0;
-                
-                dX *= friction;
-                dY *= friction;
+                case State.Active:
+                    dY += gravity;
+                    dX += 0;
 
-                X += xTranslation;
-                Y += dY;
+                    dX *= friction;
+                    dY *= friction;
+
+                    X += xTranslation;
+                    Y += dY;
+                    break;
+                case State.Slow:
+                    break;
+                case State.Hit:
+                    X = MainWindow.canvas.Width + this.Width;
+                    //currentState = State.Inactive;
+                    Reset();
+                    break;
+                case State.Ready:
+                    int msToWait = 120;
+                    Activate(msToWait);
+                    break;
+                case State.Inactive:
+                    break;
+                case State.Animating:
+                    break;
+                case State.Sleeping:
+                    tickCount++;
+                    if (tickCount > randomStartValue)
+                    {
+                        currentState = State.Active;
+                    }
+                    break;
+                default:
+                    break;
             }
 
             //Reset object when its no longer in play.

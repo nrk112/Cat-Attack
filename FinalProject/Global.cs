@@ -25,15 +25,17 @@ namespace FinalProject
         //Images
         public static readonly string TeddyBear = @"Images\teddy.png";
         public static readonly string Splat = @"Images\splat.png";
-        public static readonly string SwordToLeft = @"Images\swordToLeft.png";
-        public static readonly string SwordToRight = @"Images\swordToRight.png";
         public static readonly string Catnip = @"Images\catnip.png";
         public static readonly string Dog = @"Images\dog.png";
         public static readonly string Bird = @"Images\bird.png";
         public static readonly string Duck = @"Images\duck.png";
+        public static readonly string Paw1 = @"Images\paw1.png";
+        public static readonly string Mouse = @"Images\mouse.png";
 
         //Sounds
         public static readonly string MusicFilePath = @"Music\Funky Chunk.mp3";
+        public static readonly string GameOverMusic = @"Music\Ossuary 7 - Resolve.mp3";
+        public static readonly string MenuMusic = @"Music\Fretless.mp3";
         public static readonly string SplatSound = @"Sounds\splat.mp3";
         public static readonly string DogGrowlSound = @"Sounds\DogGrowl.wav";
         public static readonly string DogBarkSound = @"Sounds\DogBark.wav";
@@ -42,7 +44,7 @@ namespace FinalProject
         public static readonly Random rand = new Random();
 
         //Game Settings
-        public static readonly double MinVelocityToHit = 125;
+        public static readonly double MinVelocityToHit = 100;
         public static readonly int MultiHitTimeout = 3;
 
         /// <summary>

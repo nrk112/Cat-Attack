@@ -27,8 +27,8 @@ namespace FinalProject.GameObjects
 
         public void FadeOut()
         {
-            DoubleAnimation animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
-            textBlock.BeginAnimation(TextBlock.OpacityProperty, animation);
+            //DoubleAnimation animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
+            //textBlock.BeginAnimation(TextBlock.OpacityProperty, animation);
         }
 
         public override void Reset()

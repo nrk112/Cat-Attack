@@ -1,11 +1,11 @@
-﻿<Window x:Class="FinalProject.Windows.StartMenu"
+﻿<Window x:Class="FinalProject.Windows.Credits"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinalProject.Windows"
         mc:Ignorable="d"
-        Title="StartMenu" Height="600" Width="800" Opacity="0" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Foreground="{x:Null}">
+        Title="Credits" Height="600" Width="800" Opacity="0" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Foreground="{x:Null}">
     <Window.Resources>
         <Style x:Key="baseStyle" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black" />
@@ -37,13 +37,10 @@
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    
+
     <Grid x:Name="mainGrid">
-        <Label x:Name="TitleLabel" Content="Start Menu" Margin="10,10,0,0" Width="780" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{StaticResource baseStyle}" FontWeight="ExtraBold"/>
-        <Label x:Name="PlayArcadeLabel" Content="Arcade Mode" Margin="10,133,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
-        <Label x:Name="CreditsLabel" Content="Credits" Margin="10,217,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
-        <Label x:Name="QuitOptionLabel" Content="Quit" Margin="10,301,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
-        <Label x:Name="ScoreLabel" Content="" Margin="10,385,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="80" Style="{StaticResource baseStyle}" Height="116" FontWeight="ExtraBold" Foreground="#FF491212"/>
-        <Label x:Name="ScoreAmtLabel" Content="" Margin="10,506,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource baseStyle}" Foreground="#FF491212"/>
+        <Label x:Name="GoBackLabel" Content="Go Back" Margin="10,511,0,0" Width="780" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonUp="Label_MouseLeftButtonUp"/>
+        <Label x:Name="TitleLabel" Content="Credits" Margin="10,10,0,0" Width="780" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{StaticResource baseStyle}"/>
+        <TextBox x:Name="creditsTextBox" HorizontalAlignment="Left" Height="377" Margin="112,129,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="575" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" FontFamily="Chiller" FontSize="26.667" IsReadOnly="True" TextAlignment="Center" BorderThickness="0" Cursor="Arrow"/>
     </Grid>
 </Window>

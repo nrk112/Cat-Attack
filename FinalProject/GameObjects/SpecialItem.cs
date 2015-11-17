@@ -27,6 +27,7 @@ namespace FinalProject.GameObjects
         protected int startPointSectionSize;
 
         private double Slowdown = 0.1;
+        private double startingScale = 0.5;
 
         private SpecialHitCountText hitCountText;
         private AttackText attackText;
@@ -34,12 +35,13 @@ namespace FinalProject.GameObjects
         public SpecialItem()
         {
             UseImage(Global.Catnip, bitMap);
+
+            hitCountText = new SpecialHitCountText();
+            attackText = new AttackText();
             Reset();
 
             multiHitTimer.Interval = TimeSpan.FromSeconds(Global.MultiHitTimeout);
             multiHitTimer.Tick += new EventHandler(MultihitTimeout);
-            hitCountText = new SpecialHitCountText();
-            attackText = new AttackText();
 
             list.Add(this);
             AddToGame(ZIndexType.Game);
@@ -52,7 +54,8 @@ namespace FinalProject.GameObjects
         /// <param name="e"></param>
         private void MultihitTimeout(object sender, EventArgs e)
         {
-            currentState = State.Inactive;
+            X = MainWindow.canvas.Width + this.Width;
+            currentState = State.Ready;
             hitCountText.FadeOut();
             attackText.FadeOut();
             multiHitTimer.Stop();
@@ -63,9 +66,10 @@ namespace FinalProject.GameObjects
         /// </summary>
         public override void Reset()
         {
-            Scale = 0.5;
+            Scale = startingScale;
             Hits = 0;
             startPointSectionSize = (int)MainWindow.canvas.Width / 20;
+            bonusMultiplier = 1;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -89,10 +93,27 @@ namespace FinalProject.GameObjects
 
             dY = -50.0;
             Angle = 0.0;
-            Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight * 2);
+            Y = MainWindow.canvas.Height + ScaledHeight;
 
-            currentState = State.Active;
+            currentState = State.Ready;
         }
+
+        /// <summary>
+        /// Sets up a random time before starting movement of object, then sets its state to active.
+        /// Default wait is immediate.
+        /// </summary>
+        /// <param name="maxWaitTime">The maximum wait time in milliseconds allowed before starting. Leave empty for immediate.</param>
+        public void Activate(int maxWaitTime = 1)
+        {
+            tickCount = 0;
+            randomStartValue = Global.rand.Next(1, maxWaitTime);
+            randomStartValue += 120;
+            currentState = State.Sleeping;
+            hitCountText.Element.Visibility = System.Windows.Visibility.Collapsed;
+            attackText.Element.Visibility = System.Windows.Visibility.Collapsed;
+        }
+        private int tickCount = 0;
+        private int randomStartValue = 0;
 
         //Physics properties
         protected double gravity = 0.75;
@@ -103,50 +124,68 @@ namespace FinalProject.GameObjects
         /// </summary>
         public override void Update()
         {
-            if (currentState == State.Hit)
+            switch (currentState)
             {
-                currentState = State.Slow;
-                hitCountText.textBlock.Visibility = System.Windows.Visibility.Visible;
-                hitCountText.ChangeText("Hits: " + Hits);
+                case State.Active:
+                    dY += gravity;
+                    dX += 0;
 
-                attackText.textBlock.Visibility = System.Windows.Visibility.Visible;
-            }
-            else if (currentState == State.Slow)
-            {
-                if (!multiHitTimer.IsEnabled)
-                {
-                    multiHitTimer.Start();
-                }
+                    dX *= friction;
+                    dY *= friction;
 
-                dY += gravity;
-                dX += 0;
+                    X += xTranslation;
+                    Y += dY;
+                    break;
+                case State.Slow:
+                    if (!multiHitTimer.IsEnabled)
+                    {
+                        multiHitTimer.Start();
+                    }
 
-                dX *= friction;
-                dY *= friction;
+                    dY += gravity;
+                    dX += 0;
 
-                X += xTranslation * Slowdown;
-                Y += dY * Slowdown;
+                    dX *= friction;
+                    dY *= friction;
 
-                CalcBonus();
+                    X += xTranslation * Slowdown;
+                    Y += dY * Slowdown;
 
-                hitCountText.ChangeText("Hits: " + Hits);
-                hitCountText.X = X + ScaledWidth / 2;
-                hitCountText.Y = Y - ScaledHeight / 2;
+                    CalcBonus();
 
-                attackText.PulseAnimate();
-                attackText.X = X;
-                attackText.Y = Y + ScaledHeight;
-            }
-            else if (currentState == State.Active)
-            {
-                dY += gravity;
-                dX += 0;
+                    hitCountText.ChangeText("Hits: " + Hits);
+                    hitCountText.X = X + ScaledWidth / 2;
+                    hitCountText.Y = Y - ScaledHeight / 2;
 
-                dX *= friction;
-                dY *= friction;
+                    attackText.PulseAnimate();
+                    attackText.X = X;
+                    attackText.Y = Y + ScaledHeight;
+                    break;
+                case State.Hit:
+                    currentState = State.Slow;
+                    hitCountText.textBlock.Visibility = System.Windows.Visibility.Visible;
+                    hitCountText.ChangeText("Hits: " + Hits);
 
-                X += xTranslation;
-                Y += dY;
+                    attackText.textBlock.Visibility = System.Windows.Visibility.Visible;
+                    break;
+                case State.Ready:
+                    int msToWait = 240;
+                    Activate(msToWait);
+                    break;
+                case State.Inactive:
+                    //Do Nothing
+                    break;
+                case State.Animating:
+                    break;
+                case State.Sleeping:
+                    tickCount++;
+                    if (tickCount > randomStartValue)
+                    {
+                        currentState = State.Active;
+                    }
+                    break;
+                default:
+                    break;
             }
 
             //Reset object when its no longer in play.
@@ -156,12 +195,26 @@ namespace FinalProject.GameObjects
             }
         }
 
+        /// <summary>
+        /// Calculates the amount that each hit will provide.
+        /// </summary>
         private void CalcBonus()
         {
-            if (Hits > 10 && Hits <= 20)
+            if (Hits <= 10)
+            {
+                bonusMultiplier = 1;
+                attackText.ChangeText("Attack!!");
+            }
+            else if (Hits <= 20)
+            {
+                bonusMultiplier = 2;
                 attackText.ChangeText("2X");
+            }
             else if (Hits > 20)
+            {
+                bonusMultiplier = 3;
                 attackText.ChangeText("3X");
+            }
         }
     }
 }

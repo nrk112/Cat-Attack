@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace FinalProject.BaseClasses
 {
-    public abstract class GameObject : Interfaces.IGameObject
+    public abstract class GameObject : Interfaces.IGameObject, Interfaces.IInteractiveObject
     {
         /// <summary>
         /// Constructor sets initial values.
@@ -76,12 +76,13 @@ namespace FinalProject.BaseClasses
 
         public enum State
         {
-            Ready,
             Active,
-            Inactive,
             Slow,
             Hit,
-            Animating
+            Ready,
+            Inactive,
+            Animating,
+            Sleeping
         }
 
         /// <summary>
@@ -248,6 +249,22 @@ namespace FinalProject.BaseClasses
         public double ScaledWidth
         {
             get { return Element.Width * scaleTransform.ScaleX; }
+        }
+
+        public int GetHits()
+        {
+            return Hits;
+        }
+
+        public int GetScorePerHit()
+        {
+            return bonusMultiplier;
+        }
+        protected int bonusMultiplier;
+
+        public State GetState()
+        {
+            return currentState;
         }
     }
 }

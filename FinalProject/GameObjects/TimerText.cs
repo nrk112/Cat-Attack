@@ -32,7 +32,7 @@ namespace FinalProject.GameObjects
             if (Seconds == 0)
             {
                 countdownTimer.Stop();
-                GameEngine.Instance.SetGameOver();
+                GameEngine.Instance.SetGameOver("Time Over");
             }
         }
 

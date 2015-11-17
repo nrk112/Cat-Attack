@@ -44,6 +44,8 @@ namespace FinalProject.GameObjects
             Scale = startingScale;
             Hits = 0;
             fadingOut = false;
+            Element.Opacity = 1.0;
+            bonusMultiplier = -10;
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -67,23 +69,39 @@ namespace FinalProject.GameObjects
 
             dY = -50.0;
             Angle = 0.0;
-            Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight * 2);
-            growlSound.Stop();
-            growlSound.Play();
+            Y = MainWindow.canvas.Height + ScaledHeight;
 
-            currentState = State.Active;
+            currentState = State.Ready;
         }
 
         public void FadeOut()
         {
-            if (!fadingOut)
-            {
-                DoubleAnimation animation = new DoubleAnimation(0, TimeSpan.FromSeconds(2));
-                Element.BeginAnimation(Image.OpacityProperty, animation);
-                fadingOut = true;
-            }
+            //Currently only plays once....  
+
+            //if (!fadingOut)
+            //{
+            //    DoubleAnimation animation = new DoubleAnimation(0, TimeSpan.FromSeconds(2));
+            //    Element.BeginAnimation(Image.OpacityProperty, animation);
+            //    fadingOut = true;
+            //}
         }
         private bool fadingOut = false;
+
+        /// <summary>
+        /// Sets up a random time before starting movement of object, then sets its state to active.
+        /// Default wait is immediate.
+        /// </summary>
+        /// <param name="maxWaitTime">The maximum wait time in milliseconds allowed before starting. Leave empty for immediate.</param>
+        public void Activate(int maxWaitTime = 1)
+        {
+            tickCount = 0;
+            randomStartValue = Global.rand.Next(1, maxWaitTime);
+            randomStartValue += 120;
+            currentState = State.Sleeping;
+        }
+        private int tickCount = 0;
+        private int randomStartValue = 0;
+
 
         //Physics properties
         protected double gravity = 0.75;
@@ -91,43 +109,62 @@ namespace FinalProject.GameObjects
 
         public override void Update()
         {
-            if (currentState == State.Hit)
+            switch (currentState)
             {
+                case State.Active:
+                    dY += gravity;
+                    dX += 0;
 
-                currentState = State.Animating;
-                growlSound.Stop();
-                barkSound.Stop();
-                barkSound.Play();
-            }
-            else if (currentState == State.Animating)
-            {
-                Scale += 0.3;
-                FadeOut();
-                if (Scale >= 3.0)
-                {
-                    GameEngine.Instance.SetGameOver();
-                    if (Element.Opacity <= 0)
+                    dX *= friction;
+                    dY *= friction;
+
+                    X += xTranslation;
+                    Y += dY;
+                    break;
+                case State.Slow:
+                    break;
+                case State.Hit:
+                    currentState = State.Animating;
+                    growlSound.Stop();
+                    barkSound.Stop();
+                    barkSound.Play();
+                    break;
+                case State.Ready:
+                    int msToWait = 240;
+                    Activate(msToWait);
+                    break;
+                case State.Inactive:
+                    //Do Nothing
+                    break;
+                case State.Animating:
+                    Scale += 0.3;
+                    FadeOut();
+                    if (Scale >= 3.0)
                     {
-                        Scale = startingScale;
-                        X = MainWindow.canvas.Width + this.Width;
+                        //GameEngine.Instance.SetGameOver();
+                        if (Element.Opacity <= 0)
+                        {
+                            Scale = startingScale;
+                            X = MainWindow.canvas.Width + this.Width;
+                        }
+
+                        Reset();
                     }
-                        
-                    currentState = State.Inactive;
-                }
-            }
-            else if (currentState == State.Active)
-            {
-                dY += gravity;
-                dX += 0;
-
-                dX *= friction;
-                dY *= friction;
-
-                X += xTranslation;
-                Y += dY;
+                    break;
+                case State.Sleeping:
+                    tickCount++;
+                    if (tickCount > randomStartValue)
+                    {
+                        currentState = State.Active;
+                        growlSound.Stop();
+                        growlSound.Play();
+                    }
+                    break;
+                default:
+                    break;
             }
 
-            //Reset object when its no longer in play.
+            //If object is missed and falls off the screen reset it.
             if (Y >= MainWindow.canvas.Height + 3 * ScaledHeight)
             {
                 Reset();

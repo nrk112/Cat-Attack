@@ -19,6 +19,8 @@ namespace FinalProject.Windows
     /// </summary>
     public partial class StartMenu : Window
     {
+        private bool isResumeable = false;
+
         public StartMenu(string title = "Start Menu", int score = -1)
         {
             InitializeComponent();
@@ -31,18 +33,22 @@ namespace FinalProject.Windows
             TitleLabel.Content = title;
             if (score == -1)
             {
-                separator.Visibility = Visibility.Hidden;
                 ScoreLabel.Content = "";
                 ScoreAmtLabel.Content = "";
             }
+            else if (score == -2)
+            {
+                PlayArcadeLabel.Content = "Resume";
+                ScoreLabel.Content = "";
+                ScoreAmtLabel.Content = "";
+                isResumeable = true;
+            }
             else
             {
-                separator.Visibility = Visibility.Visible;
                 PlayArcadeLabel.Content = "Play Again";
                 ScoreLabel.Content = "Hits";
                 ScoreAmtLabel.Content = score;
             }
-
         }
 
         /// <summary>
@@ -59,8 +65,20 @@ namespace FinalProject.Windows
             }
             else if (tempLabel.Equals(PlayArcadeLabel))
             {
-                GameEngine.Instance.StartArcadeGame();
+                if (isResumeable)
+                {
+                    GameEngine.Instance.ResumeGame();
+                }
+                else
+                {
+                    GameEngine.Instance.StartArcadeGame();
+                }
                 this.Close();
+            }
+            else if (tempLabel.Equals(CreditsLabel))
+            {
+                Credits credits = new Credits();
+                credits.ShowDialog();
             }
         }
     }

@@ -12,13 +12,13 @@ namespace FinalProject.GameObjects
     {
         private static BitmapImage bitmap = null;
         private Point mousePosition = new Point();
-        private double startingScale = 0.5;
+        private double startingScale = 0.05;
         private static MediaPlayer splatSound = new MediaPlayer();
         private static MediaPlayer levelDownSound = new MediaPlayer();
 
         public Sword()
         {
-            UseImage(Global.SwordToLeft, bitmap);
+            UseImage(Global.Paw1, bitmap);
             Reset();
 
             string fileName = Global.ResourcePath + Global.SplatSound;
@@ -114,7 +114,7 @@ namespace FinalProject.GameObjects
                             splatSound.Stop();
                             splatSound.Play();
                             obj.Hits++;
-                            GameEngine.Instance.IncreaseScore(CalcBonus(obj));
+                            GameEngine.Instance.IncreaseScore(obj.GetScorePerHit());
                         }
                     }
                 }
@@ -131,19 +131,7 @@ namespace FinalProject.GameObjects
             splatSound.Play();
             obj.Hits++;
             obj.currentState = State.Hit;
-            GameEngine.Instance.IncreaseScore(CalcBonus(obj));
-        }
-
-        /// <summary>
-        /// Calculates how much the score will increase by per hit.
-        /// </summary>
-        /// <param name="obj">The game object to calculate from</param>
-        /// <returns></returns>
-        private int CalcBonus(GameObject obj)
-        {
-            if (obj.Hits < 10) return 1;
-            else if (obj.Hits < 20) return 2;
-            else return 3;
+            GameEngine.Instance.IncreaseScore(obj.GetScorePerHit());
         }
     }
 }
