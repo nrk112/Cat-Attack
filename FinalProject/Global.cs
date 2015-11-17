@@ -33,12 +33,13 @@ namespace FinalProject
         public static readonly string Mouse = @"Images\mouse.png";
 
         //Sounds
-        public static readonly string MusicFilePath = @"Music\Funky Chunk.mp3";
+        public static readonly string MusicFilePath = @"Music\The Show Must Be Go.mp3";
         public static readonly string GameOverMusic = @"Music\Ossuary 7 - Resolve.mp3";
         public static readonly string MenuMusic = @"Music\Fretless.mp3";
         public static readonly string SplatSound = @"Sounds\splat.mp3";
         public static readonly string DogGrowlSound = @"Sounds\DogGrowl.wav";
         public static readonly string DogBarkSound = @"Sounds\DogBark.wav";
+        public static readonly string SlashSound = @"Sounds\slash.wav";
         #endregion
 
         public static readonly Random rand = new Random();

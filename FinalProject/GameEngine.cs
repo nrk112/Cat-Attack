@@ -130,6 +130,9 @@ namespace FinalProject
         {
             gameObjects.Clear();
             MainWindow.canvas.Children.Clear();
+            AttackableObject.List.Clear();
+            SpecialItem.List.Clear();
+
             //Create Regular objects
             for (int i = 0; i < 5; i++)
             {

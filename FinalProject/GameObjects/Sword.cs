@@ -15,6 +15,8 @@ namespace FinalProject.GameObjects
         private double startingScale = 0.05;
         private static MediaPlayer splatSound = new MediaPlayer();
         private static MediaPlayer levelDownSound = new MediaPlayer();
+        private ComboText comboText = new ComboText();
+
 
         public Sword()
         {
@@ -57,11 +59,13 @@ namespace FinalProject.GameObjects
         public override void Reset()
         {
             Hits = 0;
+            HitID = -1;
+            comboText.Element.Visibility = Visibility.Hidden;
 
             mousePosition = Mouse.GetPosition(MainWindow.canvas);
-            X = mousePosition.X;
-            Y = mousePosition.Y;
             Scale = startingScale;
+            X = MainWindow.canvas.Width + this.ScaledWidth;
+            Y = MainWindow.canvas.Height + this.ScaledHeight;
             currentState = State.Active;
         }
 
@@ -82,6 +86,15 @@ namespace FinalProject.GameObjects
             //If its a new strike pattern, give it a new ID.
             if (dAngle > 20)
             {
+                totalHitsPerSwipe = CheckAllHitIDs();
+                if (totalHitsPerSwipe > 1)
+                {
+                    comboText.textBlock.Text = totalHitsPerSwipe + "X COMBO!";
+                    comboText.X = mousePosition.X;
+                    comboText.Y = mousePosition.Y;
+                    comboText.SetVisible();
+                    GameEngine.Instance.IncreaseScore(totalHitsPerSwipe);
+                }
                 HitID = Global.rand.Next(1, int.MaxValue);
             }
 
@@ -120,6 +133,8 @@ namespace FinalProject.GameObjects
                 }
             }
         }
+        private int totalHitsPerSwipe = 0;
+
 
         /// <summary>
         /// Instructions to run when a game object in the active state is hit. 
@@ -130,8 +145,37 @@ namespace FinalProject.GameObjects
             splatSound.Stop();
             splatSound.Play();
             obj.Hits++;
+            if (obj.GetScorePerHit() > 0) obj.HitID = HitID;
             obj.currentState = State.Hit;
             GameEngine.Instance.IncreaseScore(obj.GetScorePerHit());
+        }
+
+        /// <summary>
+        /// Checks how many objects were hit with the same swipe pattern.
+        /// </summary>
+        /// <returns></returns>
+        private int CheckAllHitIDs()
+        {
+            int totalHitsPerSwipe = 0;
+            //Check Regular objects.
+            foreach (GameObject obj in AttackableObject.List)
+            {
+                if (obj.HitID == HitID)
+                {
+                    totalHitsPerSwipe++;
+                }
+            }
+
+            //Check Special Objects
+            foreach (GameObject obj in SpecialItem.List)
+            {
+                if (obj.HitID == HitID)
+                {
+                    totalHitsPerSwipe++;
+                }
+            }
+
+            return totalHitsPerSwipe;
         }
     }
 }

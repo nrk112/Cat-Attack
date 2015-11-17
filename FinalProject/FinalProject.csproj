@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameObjects\ComboText.cs" />
     <Compile Include="Interfaces\IInteractiveObject.cs" />
     <Compile Include="MusicPlayer.cs" />
     <Compile Include="Windows\Credits.xaml.cs">
