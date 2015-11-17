@@ -24,6 +24,7 @@ namespace FinalProject
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 
         public static Canvas canvas { get; set; }
@@ -57,6 +58,14 @@ namespace FinalProject
 
             //Load game engine after canvas has been setup.
             gameEngine = GameEngine.Instance;
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                GameEngine.Instance.PauseGame();
+            }
         }
     }
 }
