@@ -18,7 +18,7 @@ namespace FinalProject.GameObjects
 
             Scale = 2 * Global.ScalingRatio;
 
-            textBlock.Foreground = Brushes.Black;
+            textBlock.Foreground = Brushes.White;
             AddToGame(ZIndexType.UI);
         }
 

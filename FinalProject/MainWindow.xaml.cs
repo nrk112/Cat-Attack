@@ -41,12 +41,12 @@ namespace FinalProject
         void MainWindow_Loaded(object sender, EventArgs e)
         {
             canvas = new Canvas();
-            this.WindowState = WindowState.Maximized;
             canvas.Background = Brushes.Azure;
 
             //Use a background image
             ImageBrush ib = new ImageBrush();
             ib.ImageSource = new BitmapImage(new Uri(@"../../Resources/Images/background2.jpg", UriKind.Relative));
+            ib.Stretch = Stretch.Fill;
             canvas.Background = ib;
 
             mainGrid.Height = Height - 40;

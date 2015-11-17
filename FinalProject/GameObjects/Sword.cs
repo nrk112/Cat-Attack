@@ -86,7 +86,7 @@ namespace FinalProject.GameObjects
             lastAngle = currentAngle;
 
             //If its a new strike pattern, give it a new ID.
-            if (dAngle > 20)
+            if (dAngle > 20 || CalculateVelocity() < Global.MinVelocityToHit)
             {
                 totalHitsPerSwipe = CheckAllHitIDs();
                 if (totalHitsPerSwipe > 1)
