@@ -49,7 +49,7 @@ namespace FinalProject
             ib.Stretch = Stretch.Fill;
             canvas.Background = ib;
 
-            mainGrid.Height = Height - 40;
+            mainGrid.Height = Height;
             mainGrid.Width = Width;
             canvas.Height = mainGrid.Height;
             canvas.Width = mainGrid.Width;
