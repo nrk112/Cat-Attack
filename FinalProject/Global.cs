@@ -50,14 +50,28 @@ namespace FinalProject
             {
                 return MainWindow.canvas.Width / 2560; //Screen resolution game developed on X=2560
             }
-            set
-            {
-
-            }
         }
 
         //Game Settings
-        public static readonly double MinVelocityToHit = 100;
+        public static double MinVelocityToHit
+        {
+            get
+            {
+                if (MainWindow.canvas.Width < 1500)
+                {
+                    return 40;
+                }
+                else if (MainWindow.canvas.Width > 2000)
+                {
+                    return 100;
+                }
+                else
+                {
+                    return 75;
+                }
+
+            }
+        }
         public static readonly int MultiHitTimeout = 3;
 
         /// <summary>
