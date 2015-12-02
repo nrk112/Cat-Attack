@@ -63,7 +63,7 @@ namespace FinalProject
                 }
                 else if (MainWindow.canvas.Width > 2000)
                 {
-                    return 100;
+                    return 120;
                 }
                 else
                 {

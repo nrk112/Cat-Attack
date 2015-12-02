@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinalProject"
         mc:Ignorable="d"
-        Title="Cat Attack" Height="350" Width="525" ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized">
+        Title="Cat Attack" Height="350" Width="525" ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Cursor="None">
     <Grid x:Name="mainGrid">
         
     </Grid>

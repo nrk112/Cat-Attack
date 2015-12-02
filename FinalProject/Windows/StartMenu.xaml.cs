@@ -21,7 +21,7 @@ namespace FinalProject.Windows
     {
         private bool isResumeable = false;
 
-        public StartMenu(string title = "Start Menu", int score = -1)
+        public StartMenu(string title = "Cat Attack", int score = -1)
         {
             InitializeComponent();
 

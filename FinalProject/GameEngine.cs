@@ -157,7 +157,7 @@ namespace FinalProject
             //Create UI
             hitCountText = new HitCountText();
             timerText = new TimerText();
-            timerText.StartTimer();
+            timerText.StartTimer(true);
         }
 
         /// <summary>
@@ -218,13 +218,16 @@ namespace FinalProject
         {
             //TODO: If adding different game modes, need to save previouse state when escape is pressed then load the proper resume here.
             currentState = State.RunningArcade;
+            timerText.StartTimer(false);
         }
 
         public void PauseGame()
         {
             currentState = State.Stopped;
+            timerText.StopTimer();
             Windows.StartMenu sm = new Windows.StartMenu("Paused", -2);
             sm.ShowDialog();
+
         }
 
         #region Audio
