@@ -12,7 +12,7 @@ namespace FinalProject.GameObjects
     {
         private static BitmapImage bitmap = null;
         private Point mousePosition = new Point();
-        private double startingScale = 0.05;
+        private double startingScale = 0.08;
         private static MediaPlayer splatSound = new MediaPlayer();
         private static MediaPlayer levelDownSound = new MediaPlayer();
         private ComboText comboText = new ComboText();

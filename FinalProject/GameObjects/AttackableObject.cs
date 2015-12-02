@@ -62,10 +62,22 @@ namespace FinalProject.GameObjects
             bonusMultiplier = 1;
 
             //Set gravity based on resolution
-            if (MainWindow.canvas.Width > 2000)
+            if (MainWindow.canvas.Width < 1500)
+            {
+                gravity = 0.60 + Global.rand.NextDouble() * 0.2 * Global.ScalingRatio;
+                dY = -60.0 * Global.ScalingRatio;
+            }
+            else if (MainWindow.canvas.Width > 2000)
+            {
+                dY = -50.0 * Global.ScalingRatio;
                 gravity = 0.85 + Global.rand.NextDouble() * 0.3;
+            }
             else
+            {
+                dY = -50.0 * Global.ScalingRatio;
                 gravity = 0.70 + Global.rand.NextDouble() * 0.2 * Global.ScalingRatio;
+            }
+          
 
             int rand = Global.rand.Next(1, 19);
             X = startPointSectionSize * rand;
@@ -87,7 +99,7 @@ namespace FinalProject.GameObjects
                 xTranslation = Global.rand.Next(5, 15) * -1;
             }
 
-            dY = -50.0 * Global.ScalingRatio;
+            //dY = -50.0 * Global.ScalingRatio;
             Angle = 0.0;
             //Y = MainWindow.canvas.Height + ScaledHeight + Global.rand.Next((int)ScaledHeight, (int)ScaledHeight *2);
             Y = MainWindow.canvas.Height + ScaledHeight;

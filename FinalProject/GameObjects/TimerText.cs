@@ -39,9 +39,9 @@ namespace FinalProject.GameObjects
         /// <summary>
         /// Sets the game countdown timer and starts it
         /// </summary>
-        public void StartTimer()
+        public void StartTimer(bool reset)
         {
-            Seconds = 60;
+            if (reset) Seconds = 60;
             countdownTimer.Start();
         }
 
